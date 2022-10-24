@@ -12,6 +12,10 @@ inputs:
   instance:
     description: "CloudSQL instance"
     required: true
+  id: 
+    description: "Container ID"
+    required: false
+    default: gce-cloudsql-proxy
   port:
     description: "Listen on port"
     required: false
@@ -28,12 +32,12 @@ runs:
       shell: bash
       run: |
         # write google application credentials to a temporary file to be used inside the container
-        mkdir -p /tmp/gce-cloudsql-proxy/primary
-        echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/primary/key.json
+        mkdir -p /tmp/${{ inputs.id }}
+        echo '${{ inputs.creds }}' > /tmp/${{ inputs.id }}/key.json
 
         # start container
         docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \
-        -v /tmp/gce-cloudsql-proxy/primary:/tmp/gce-cloudsql-proxy \
+        -v /tmp/${{ inputs.id }}:/tmp/gce-cloudsql-proxy \
         gcr.io/cloudsql-docker/gce-proxy:${{ inputs.proxy_version }} \
         /cloud_sql_proxy \
           -credential_file /tmp/gce-cloudsql-proxy/key.json \
@@ -54,7 +58,7 @@ runs:
         done
 
         # print container logs
-        docker logs gce-cloudsql-proxy
+        docker logs ${{ inputs.id }}
 
         # exit with error code if we couldn't connect
         if [[ $isready -ne 0 ]]; then

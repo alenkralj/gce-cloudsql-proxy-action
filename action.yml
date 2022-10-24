@@ -28,12 +28,12 @@ runs:
       shell: bash
       run: |
         # write google application credentials to a temporary file to be used inside the container
-        mkdir -p /tmp/gce-cloudsql-proxy
-        echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/key.json
+        mkdir -p /tmp/gce-cloudsql-proxy/primary
+        echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/primary/key.json
 
         # start container
         docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \
-        -v /tmp/gce-cloudsql-proxy:/tmp/gce-cloudsql-proxy \
+        -v /tmp/gce-cloudsql-proxy/primary:/tmp/gce-cloudsql-proxy \
         gcr.io/cloudsql-docker/gce-proxy:${{ inputs.proxy_version }} \
         /cloud_sql_proxy \
           -credential_file /tmp/gce-cloudsql-proxy/key.json \

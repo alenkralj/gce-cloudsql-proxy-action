@@ -19,7 +19,7 @@ inputs:
   proxy_version:
     description: "CloudSQL Proxy Version"
     required: false
-    default: 1.21.0
+    default: 1.32.0
 
 runs:
   using: "composite"
@@ -30,9 +30,6 @@ runs:
         # write google application credentials to a temporary file to be used inside the container
         mkdir -p /tmp/gce-cloudsql-proxy
         echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/key.json
-
-        # DEBUG 
-        ls -al /tmp/gce-cloudsql-proxy
 
         # start container
         docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \

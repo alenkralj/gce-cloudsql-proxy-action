@@ -36,7 +36,7 @@ runs:
         echo '${{ inputs.creds }}' > /tmp/${{ inputs.id }}/key.json
 
         # start container
-        docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \
+        docker run -d --net host --name ${{ inputs.id }} --restart on-failure \
         -v /tmp/${{ inputs.id }}:/tmp/gce-cloudsql-proxy \
         gcr.io/cloudsql-docker/gce-proxy:${{ inputs.proxy_version }} \
         /cloud_sql_proxy \

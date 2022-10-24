@@ -31,6 +31,9 @@ runs:
         mkdir -p /tmp/gce-cloudsql-proxy
         echo '${{ inputs.creds }}' > /tmp/gce-cloudsql-proxy/key.json
 
+        # DEBUG 
+        ls -al /tmp/gce-cloudsql-proxy
+
         # start container
         docker run -d --net host --name gce-cloudsql-proxy --restart on-failure \
         -v /tmp/gce-cloudsql-proxy:/tmp/gce-cloudsql-proxy \

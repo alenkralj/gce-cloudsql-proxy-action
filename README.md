@@ -24,7 +24,7 @@ or use a tool like [Terraform](https://www.terraform.io).
 ## Example Usage
 
 ```
-uses: mattes/gce-cloudsql-proxy-action@v1
+uses: alenkralj/gce-cloudsql-proxy-action@v1
 with:
   creds: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
   instance: my-project:us-central1:instance-1
